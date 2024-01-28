@@ -1,8 +1,6 @@
 $(document).ready(function () {
-  // Load cities from local storage on page load
   loadCities();
 
-  // Handle click event on city names in the history
   $(document).on("click", ".list-group-item", function () {
     var cityName = $(this).text();
     fetchWeather(cityName);
@@ -13,19 +11,16 @@ $(document).ready(function () {
     var cityName = $("#search-input").val();
     localStorage.setItem("searchedCity", cityName);
 
-    // Save the city to local storage
     saveCity(cityName);
 
-    // Load cities again to update the history immediately
     loadCities();
 
-    // Fetch and display weather for the selected city
     fetchWeather(cityName);
   });
 
   function fetchWeather(cityName) {
     var cityURL =
-      "http://api.openweathermap.org/geo/1.0/direct?q=" +
+      "https://api.openweathermap.org/geo/1.0/direct?q=" +
       cityName +
       "&appid=ef4ac2c82d48b8c9e99b208c1d96371c";
 
@@ -41,7 +36,7 @@ $(document).ready(function () {
         var lat = data[0].lat;
 
         var oneCallURL =
-          "http://api.openweathermap.org/data/2.5/forecast?lat=" +
+          "https://api.openweathermap.org/data/2.5/forecast?lat=" +
           lat +
           "&lon=" +
           lon +
@@ -213,21 +208,16 @@ $(document).ready(function () {
   }
 
   function saveCity(cityName) {
-    // Retrieve cities from local storage
     var cities = JSON.parse(localStorage.getItem("cities")) || [];
 
-    // Add the new city to the array
     cities.push(cityName);
 
-    // Save the updated array back to local storage
     localStorage.setItem("cities", JSON.stringify(cities));
   }
 
   function loadCities() {
-    // Retrieve cities from local storage
     var cities = JSON.parse(localStorage.getItem("cities")) || [];
 
-    // Display the cities in the #history element
     $("#history").empty();
     cities.forEach(function (city) {
       var listItem = $("<a>")
